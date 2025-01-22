@@ -1,50 +1,27 @@
-# React + TypeScript + Vite
+# Ecommerce Clone
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This application is a clone with very minimal functionality. It mostly focuses on setting-up the project and using
+different packages for smooth working of the application.
 
-Currently, two official plugins are available:
+# Pages
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+There is just 1 working page - _Shop_, rest of the pages are dummy.
 
-## Expanding the ESLint configuration
+Shop page shows a list of categories and the complete list of products.
+Products and categories are fetched from https://fakestoreapi.com/.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+Categories is a list of radio buttons and whichever you choose filters the products list.
+Search input is just a placeholder which does nothing
 
-- Configure the top-level `parserOptions` property like this:
+# Performance
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+The components are memoized wherever required using React.memo.
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+# Packages used
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+- react-router-dom to setup routing
+- react-redux to create a global state management solution
+- rtk-query for API calls and caching API responses
+- shadcn/ui for UI components
+- react-icons for Icons
+- tailwindcss for styling
