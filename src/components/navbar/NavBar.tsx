@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaAngleDown } from "react-icons/fa";
 
 import { Badge } from "../badge/Badge";
@@ -43,9 +43,16 @@ const NavBarRightContainer = () => {
 };
 
 export const NavBar = memo(() => {
+  const navigate = useNavigate();
+
   return (
     <div className="flex justify-between items-center py-4">
-      <div className="text-3xl text-bold">Flone.</div>
+      <div
+        className="text-3xl text-bold cursor-pointer"
+        onClick={() => navigate("/")}
+      >
+        Flone.
+      </div>
       <NavBarLinks />
       <NavBarRightContainer />
     </div>

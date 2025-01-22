@@ -1,3 +1,5 @@
+import { memo } from "react";
+
 interface ICheckboxProps {
   id: string;
   label: string;
@@ -5,18 +7,18 @@ interface ICheckboxProps {
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-export const Checkbox = (props: ICheckboxProps) => {
+const RawRadioButton = (props: ICheckboxProps) => {
   const { label, id, isChecked, onChange } = props;
   const checkboxId = `${id}-${label}`;
 
   return (
-    <div className="flex gap-2 items-center">
+    <div className="flex gap-2 items-center w-36 h-5">
       <input
         checked={isChecked}
         className="cursor-pointer"
         id={checkboxId}
         onChange={onChange}
-        type="checkbox"
+        type="radio"
       />
       <label className="text-sm cursor-pointer" htmlFor={checkboxId}>
         {label}
@@ -24,3 +26,8 @@ export const Checkbox = (props: ICheckboxProps) => {
     </div>
   );
 };
+
+export const RadioButton = memo(
+  RawRadioButton,
+  (prev, next) => prev.isChecked === next.isChecked
+);

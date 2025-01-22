@@ -16,7 +16,7 @@ export const Rating = (props: IRatingProps) => {
     .map((_, index) => <CiStar key={index} color="#fcb900" size={20} />);
   const emptyStars = Array(emptyRating)
     .fill(0)
-    .map((_, index) => <CiStar key={index} size={20} />);
+    .map((_, index) => <CiStar key={`${filledRating}-${index}`} size={20} />);
 
   return <div className="flex">{filledStars.concat(emptyStars)}</div>;
 };
