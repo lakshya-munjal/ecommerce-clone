@@ -1,9 +1,9 @@
+import { memo } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FaAngleDown } from "react-icons/fa";
 
 import { Badge } from "../badge/Badge";
 import { LINKS, OPTIONS } from "./constants";
-import { memo } from "react";
 
 interface NavBarLinkItemProps {
   path: string;

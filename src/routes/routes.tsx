@@ -1,7 +1,16 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-import { PageLayout } from "../layout";
-import { Home, Error, Index, Shop } from "../pages";
+import { PageLayout } from "@/layout";
+import {
+  Home,
+  Error,
+  Index,
+  Shop,
+  Collection,
+  Blog,
+  ContactUs,
+  Pages,
+} from "@/pages";
 import { ROUTES } from "./constants";
 
 const router = createBrowserRouter([
@@ -13,6 +22,10 @@ const router = createBrowserRouter([
       { index: true, element: <Index /> },
       { path: ROUTES.HOME, element: <Home /> },
       { path: ROUTES.SHOP, element: <Shop /> },
+      { path: ROUTES.COLLECTION, element: <Collection /> },
+      { path: ROUTES.CONTACT_US, element: <ContactUs /> },
+      { path: ROUTES.BLOG, element: <Blog /> },
+      { path: ROUTES.PAGES, element: <Pages /> },
     ],
   },
 ]);

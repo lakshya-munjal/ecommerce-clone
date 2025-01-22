@@ -144,9 +144,6 @@ export const Shop = () => {
         {renderCategories()}
       </div>
       <div className="ml-12">
-        <div className="text-center mb-4 text-sm">
-          Showing 10 of 100 results
-        </div>
         <div className="flex flex-wrap gap-4 justify-evenly">
           {renderProductsSkeleton()}
           {renderProductsList()}

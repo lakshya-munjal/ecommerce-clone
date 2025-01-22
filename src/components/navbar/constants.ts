@@ -4,7 +4,7 @@ import {
   IoShuffle,
   IoBagHandleOutline,
 } from "react-icons/io5";
-import { ROUTES } from "../../routes/constants";
+import { ROUTES } from "@/routes/constants";
 
 export const LINKS = [
   {

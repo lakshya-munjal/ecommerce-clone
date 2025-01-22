@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import { NavBar } from "../../components";
+import { NavBar } from "@/components";
 
 const PageLayout = () => {
   return (
