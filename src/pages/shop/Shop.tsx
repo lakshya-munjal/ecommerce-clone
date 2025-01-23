@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 import { Skeleton } from "@/components/ui/skeleton";
 import { ToastAction } from "@/components/ui/toast";
-import { RadioButton, InputWithSearch, ProductCard } from "@/components";
+import { Checkbox, InputWithSearch, ProductCard } from "@/components";
 
 import { useToast } from "@/hooks/use-toast";
 import {
@@ -10,6 +10,12 @@ import {
   useGetProductsListQuery,
   useLazyGetProductsByCategoryQuery,
 } from "@/services";
+import { ProductResponse } from "@/services/types";
+
+interface ICheckboxItem {
+  label: string;
+  isSelected: boolean;
+}
 
 export const Shop = () => {
   const {
@@ -28,23 +34,42 @@ export const Shop = () => {
   const [
     trigger,
     {
-      data: productsByCategory,
       isLoading: isProductsByCategoryLoading,
       isFetching: isProductsByCategoryFetching,
       isError: isProductsByCategoryError,
     },
   ] = useLazyGetProductsByCategoryQuery();
 
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [selectedCategories, setSelectedCategories] = useState<
+    Array<ICheckboxItem>
+  >([]);
   const [title, setTitle] = useState("");
+  const [filteredProducts, setFilteredProducts] = useState(allProducts);
 
   const { toast } = useToast();
+
+  useEffect(() => {
+    // populate the checkbox state on initial render
+    const initialCheckboxState = categories?.map((item) => ({
+      label: item,
+      isSelected: false,
+    }));
+    setSelectedCategories(initialCheckboxState || []);
+  }, [categories]);
 
   const handleTryAgain = () => {
     if (isCategoriesError) refetchCategories();
     if (isProductsError) refetchProducts();
-    if (isProductsByCategoryError && selectedCategory)
-      trigger(selectedCategory.toLowerCase());
+    if (isProductsByCategoryError && selectedCategories) {
+      const newProductsList: ProductResponse[] = [];
+      selectedCategories.forEach(async (item) => {
+        if (item.isSelected) {
+          const response = await trigger(item.label.toLowerCase()).unwrap();
+          newProductsList.push(...response);
+        }
+      });
+      setFilteredProducts(newProductsList);
+    }
   };
 
   useEffect(() => {
@@ -70,19 +95,35 @@ export const Shop = () => {
       : null;
   };
 
+  const handleCheckboxChange = (label: string) => {
+    const list = [...selectedCategories];
+    const selectedItem = list.find((item) => item.label === label);
+
+    if (selectedItem) {
+      selectedItem.isSelected = !selectedItem.isSelected;
+    }
+    setSelectedCategories(list);
+
+    const newProductsList: ProductResponse[] = [];
+    list.forEach(async (item) => {
+      if (item.isSelected) {
+        const response = await trigger(item.label.toLowerCase()).unwrap();
+        newProductsList.push(...response);
+      }
+    });
+    setFilteredProducts(newProductsList);
+  };
+
   const renderCategories = () => {
-    return categories?.map((item, index) => {
+    return selectedCategories?.map((item, index) => {
       return (
-        <RadioButton
+        <Checkbox
           key={index}
-          label={item}
-          id={`${item}-${index}`}
-          isChecked={selectedCategory === item}
-          onChange={(e) => {
-            setSelectedCategory(e.target.checked ? item : null);
-            if (e.target.checked) {
-              trigger(item.toLowerCase());
-            }
+          label={item.label}
+          id={`${item.label}-${index}`}
+          isChecked={item.isSelected}
+          onChange={() => {
+            handleCheckboxChange(item.label);
           }}
         />
       );
@@ -109,8 +150,8 @@ export const Shop = () => {
   const getProductsList = () => {
     if (areProductsLoading()) return [];
 
-    if (selectedCategory) {
-      return productsByCategory;
+    if (filteredProducts?.length) {
+      return filteredProducts;
     } else {
       return allProducts;
     }

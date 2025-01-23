@@ -7,7 +7,7 @@ interface ICheckboxProps {
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const RawRadioButton = (props: ICheckboxProps) => {
+const RawCheckbox = (props: ICheckboxProps) => {
   const { label, id, isChecked, onChange } = props;
   const checkboxId = `${id}-${label}`;
 
@@ -18,7 +18,7 @@ const RawRadioButton = (props: ICheckboxProps) => {
         className="cursor-pointer"
         id={checkboxId}
         onChange={onChange}
-        type="radio"
+        type="checkbox"
       />
       <label className="text-sm cursor-pointer" htmlFor={checkboxId}>
         {label}
@@ -27,7 +27,7 @@ const RawRadioButton = (props: ICheckboxProps) => {
   );
 };
 
-export const RadioButton = memo(
-  RawRadioButton,
+export const Checkbox = memo(
+  RawCheckbox,
   (prev, next) => prev.isChecked === next.isChecked
 );
